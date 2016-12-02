@@ -9,7 +9,9 @@
     "default_icon": "slingify_logo1.png",
     "default_popup": "popup.html"
   },
-
+  "icons": {
+    "64": "slingify_icon.png"
+  },
   "background": {
     "scripts": ["background.js"]
   },
