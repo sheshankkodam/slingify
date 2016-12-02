@@ -20,5 +20,9 @@
       "matches": ["https://*/*", "http://*/*"],
       "js": ["myscript.js"]
     }
-  ]
+  ],
+  "chrome_url_overrides": {
+    // chrome url overrides works with newtab, history, bookmarks bar
+    "newtab": "newtab.html"
+  }
 }
