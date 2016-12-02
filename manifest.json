@@ -9,8 +9,14 @@
     "default_icon": "slingify_logo1.png",
     "default_popup": "popup.html"
   },
-  "permissions": [
-    "activeTab",
-    "https://ajax.googleapis.com/"
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*", "http://*/*"],
+      "js": ["myscript.js"]
+    }
   ]
 }
