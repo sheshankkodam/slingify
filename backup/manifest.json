@@ -12,8 +12,15 @@
   "icons": {
     "64": "images/slingify_icon.png"
   },
-  "background":{
-    "scripts": ["background.js"],
-    "persistent": false
-  }
+  "content_scripts": [
+    {
+      "matches": ["https://*/*", "http://*/*"],
+      "css": ["style.css"],
+      "js": ["jquery.js", "myscript.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    "toolbar.html",
+    "style.css"
+  ]
 }
