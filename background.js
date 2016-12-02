@@ -7,6 +7,6 @@ chrome.contextMenus.create({
 });
 
 
-function myFunction() {
-    alert("you clicked me");
+function myFunction(selectedText) {
+    chrome.tabs.create({url: "https://twitter.com/intent/tweet?text="+selectedText.selectionText})
 }
