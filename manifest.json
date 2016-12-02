@@ -12,17 +12,15 @@
   "icons": {
     "64": "slingify_icon.png"
   },
-  "background": {
-    "scripts": ["background.js"]
-  },
   "content_scripts": [
     {
       "matches": ["https://*/*", "http://*/*"],
-      "js": ["myscript.js"]
+      "css": ["style.css"],
+      "js": ["jquery.js", "myscript.js"]
     }
   ],
-  "chrome_url_overrides": {
-    // chrome url overrides works with newtab, history, bookmarks bar
-    "newtab": "newtab.html"
-  }
+  "web_accessible_resources": [
+    "toolbar.html",
+    "style.css"
+  ]
 }
