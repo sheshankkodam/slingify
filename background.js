@@ -27,9 +27,7 @@ function clickHandler(data, tab) {
             break;
         case 'page':
             chrome.windows.create({url: "https://twitter.com/intent/tweet?text="+
-            encodeURIComponent(tab.title), type: "panel"});
+            encodeURIComponent(tab.title)+"&url="+(data.pageUrl), type: "panel"});
             break;
-
     }
-
 }
