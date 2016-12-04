@@ -1,3 +1,4 @@
+// Twitter
 var tweetMessages = [];
 var tweetImages = [];
 var dataItemId = [];
@@ -6,13 +7,21 @@ var latestTweet;
 var latestTweetImage;
 var newTweet;
 
-
+// facebook
+var fbAccessToken = 'EAACEdEose0cBALAaZC6GOk7QGfGvzoH5ETvm0udH2reqCdirZC3sOxd2J7J5W5YnDCdQ9FqDqOg9D8RBM4SsXCSccIoQWXwuydOziZAq7OiaoZBmo5fArAWMmLqUOpFeMr8Gf0AwfFptvszG6EHKkO7pKL98LWXQG2Sa1p1TwAZDZD';
+var fbGraphUrl = 'https://graph.facebook.com/SLINGify/posts/?access_token=' + fbAccessToken;
+var latestFbMessage;
+var latestFbMessageId;
+var newFbPost;
 
 $(function () {
-    engine();
-    setInterval(engine, 2000)
+    facebookEngine();
+    setInterval(facebookEngine, 2000);
+    twitterEngine();
+    setInterval(twitterEngine, 2000)
 });
-function engine() {
+function twitterEngine() {
+    console.log("Twitter engine running")
     $.get("https://twitter.com/slingify", function (data) {
         var htmlData = data;
         $data = $(htmlData).find('#stream-items-id').eq(0);
@@ -60,11 +69,31 @@ function engine() {
         }
 
     });
-
-
-    //
-
-    // chrome.notifications.onClicked.addListener(replyBtnClick);
 }
+
+function facebookEngine() {
+    console.log("Running Facebook engine")
+    $.getJSON(fbGraphUrl, function (data) {
+        if(latestFbMessageId === undefined || latestFbMessageId !== data['data'][0]['id']){
+            latestFbMessage = data['data'][0]['message'];
+            latestFbMessageId = data['data'][0]['id'];
+            newFbPost = true;
+        } else if(latestFbMessageId === data['data'][0]['id']){
+            // not a new tweet
+            newFbPost = false;
+        }
+
+        if (newFbPost === true){
+            var options = {
+                type: "basic",
+                title: "Slingify-Faebook Notifier",
+                iconUrl: "images/slingify_logo1.png",
+                message: latestFbMessage
+            };
+            chrome.notifications.create(options);
+        }
+    })
+}
+
 
 
