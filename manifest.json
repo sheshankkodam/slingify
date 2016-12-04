@@ -14,8 +14,8 @@
   "background":{
     "page": "background.html"
   },
-  "permissions": ["notifications","https://twitter.com/slingify", "https://twitter.com/i/notifications"],
+  "permissions": ["notifications","https://twitter.com/slingify", "https://twitter.com/i/notifications", "https://pbs.twimg.com/media/*"],
 
-  "content_security_policy":"script-src 'self' https://twitter.com/slingify; object-src 'self'"
+  "content_security_policy":"script-src 'self' https://twitter.com/slingify https://pbs.twimg.com/media/*; object-src 'self'"
 
 }
