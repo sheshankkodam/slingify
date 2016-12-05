@@ -16,6 +16,6 @@
   },
   "permissions": ["notifications","https://twitter.com/slingify", "https://twitter.com/i/notifications", "https://pbs.twimg.com/media/*"],
 
-  "content_security_policy":"script-src 'self' https://twitter.com/slingify https://pbs.twimg.com/media/*; object-src 'self'"
+  "content_security_policy":"script-src 'self' https://twitter.com/slingify https://twitter.com/i/notifications https://pbs.twimg.com/media/*; object-src 'self'"
 
 }

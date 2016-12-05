@@ -7,8 +7,16 @@ var latestTweet;
 var latestTweetImage;
 var newTweet;
 
+// Twitter notifications
+var tweetNotifications= [];
+var tweetNotificationsIds = [];
+var latestTweetNotificationId;
+var latestTweetNotification;
+var newTweetNotification;
+
+
 // facebook
-var fbAccessToken = 'EAACEdEose0cBALAaZC6GOk7QGfGvzoH5ETvm0udH2reqCdirZC3sOxd2J7J5W5YnDCdQ9FqDqOg9D8RBM4SsXCSccIoQWXwuydOziZAq7OiaoZBmo5fArAWMmLqUOpFeMr8Gf0AwfFptvszG6EHKkO7pKL98LWXQG2Sa1p1TwAZDZD';
+var fbAccessToken = 'EAACEdEose0cBAH0xmn7AZAadwmcKlwPKbkJ7fXAon84KeubvWsyUh8aQIZA9U4aeqk59rqepkhKF1wPHyhxriPF9ePGTlQZCkvMiRvZAEWUJ3krOccpxHiWRYitCvqLFtTMr4w2RVAAtILtaZBVQxht0Yordj7NOGnGDEJW3EBgZDZD';
 var fbGraphUrl = 'https://graph.facebook.com/SLINGify/posts/?access_token=' + fbAccessToken;
 var latestFbMessage;
 var latestFbMessageId;
@@ -18,10 +26,14 @@ $(function () {
     facebookEngine();
     setInterval(facebookEngine, 2000);
     twitterEngine();
-    setInterval(twitterEngine, 2000)
+    setInterval(twitterEngine, 2000);
+    twitterNotificationEngine();
+    setInterval(twitterNotificationEngine, 2000)
+
 });
 function twitterEngine() {
     console.log("Twitter engine running")
+    showCurrentTime();
     $.get("https://twitter.com/slingify", function (data) {
         var htmlData = data;
         $data = $(htmlData).find('#stream-items-id').eq(0);
@@ -60,7 +72,7 @@ function twitterEngine() {
                     title: "Slingify-Twitter Notifier",
                     iconUrl: "images/slingify_logo1.png",
                     message: latestTweet,
-                    imageUrl: "https://pbs.twimg.com/media/CyXsBrTXcAA9cch.jpg"
+                    imageUrl: latestTweetImage
                 };
                 chrome.notifications.create(options);
             }
@@ -93,6 +105,55 @@ function facebookEngine() {
             chrome.notifications.create(options);
         }
     })
+}
+
+function twitterNotificationEngine() {
+    console.log("Twitter notification engine running")
+    showCurrentTime();
+    showCurrentTime()
+    $.get("https://twitter.com/i/notifications", function (data) {
+        var htmlData = data;
+        $data = $(htmlData).find('#stream-items-id').eq(0);
+        $('body').append($data);
+
+        for(var i=0; i< $data.find('li.stream-item').length; i++){
+            tweetNotificationsIds[i] = $data.find('li.stream-item').eq(i).attr('data-item-id');
+            // tweetMessages[i] = ($($data).find('li.stream-item').eq(i).find('div.js-tweet-text-container').find('p.tweet-text').text()).replace(/\n/g,'').trim();
+            tweetNotifications[i] = ($($data).find('li.stream-item').eq(i).find('div.js-tweet-text-container').find('p.tweet-text')).text().replace('pic.twitter.com/','');
+        }
+
+        if(latestTweetNotificationId === undefined || latestTweetNotificationId !== tweetNotificationsIds[0]){
+            latestTweetNotificationId = tweetNotificationsIds[0];
+            latestTweetNotification = tweetNotifications[0];
+            newTweetNotification = true;
+        } else if(latestTweetNotificationId === tweetNotificationsIds[0]){
+            // not a new tweet
+            newTweetNotification = false;
+        }
+
+        if(newTweetNotification === true){
+            var options = {
+                type: "basic",
+                title: "Slingify-Twitter Notifier",
+                iconUrl: "images/slingify_logo1.png",
+                message: latestTweetNotification
+            };
+            chrome.notifications.create(options);
+        }
+
+    });
+}
+
+function showCurrentTime() {
+    var currentdate = new Date();
+    var datetime = "Last Sync: " + currentdate.getDate() + "/"
+        + (currentdate.getMonth()+1)  + "/"
+        + currentdate.getFullYear() + " @ "
+        + currentdate.getHours() + ":"
+        + currentdate.getMinutes() + ":"
+        + currentdate.getSeconds();
+    console.log(datetime)
+
 }
 
 
