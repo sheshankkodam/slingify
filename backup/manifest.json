@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+
+  "name": "Slingify",
+  "description": "This extension notifies you all important events happening in SlingTv o)))",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "images/slingify_logo1.png",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "64": "images/slingify_icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*", "http://*/*"],
+      "css": ["style.css"],
+      "js": ["jquery.js", "myscript.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    "toolbar.html",
+    "style.css"
+  ]
+}
